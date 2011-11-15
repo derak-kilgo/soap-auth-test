@@ -1,7 +1,8 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors',true);
-set_include_path('/var/www/ZendFramework/trunk/library');
+//set_include_path('/var/www/ZendFramework/trunk/library'); //home
+set_include_path('.' . PATH_SEPARATOR . getenv('DOCUMENT_ROOT') . '/ZendFramework-1.11.8/library/'); //work
 require_once 'Zend/Loader/Autoloader.php';
 $autoloader = Zend_Loader_Autoloader::getInstance();
 
@@ -34,7 +35,9 @@ if(isset($_GET['wsdl'])) {
     $autodiscover->handle();
 }else{
     $server = new Zend_Soap_Server();
-    $server->setWsdl($autodiscover->toXML());
+    $wsdlCache = '/tmp/wsdl.' . basename(__FILE__);
+    $autodiscover->dump($wsdlCache);
+    $server->setWsdl($wsdlCache);
     $server->setClass('MyClass');
     //$server->setObject(new MyClass());
     $server->handle();
