@@ -1,0 +1,7 @@
+AuthType Basic
+AuthName "Password Test"
+AuthUserFile "/var/www/html/www/html/tests/sharepoint/soap-auth-test/userlist.txt"
+
+<Files "server.php">
+ Require valid-user
+</Files>
